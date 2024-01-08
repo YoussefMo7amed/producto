@@ -1,0 +1,29 @@
+{
+  "name": "producto",
+  "version": "1.0.0",
+  "description": "Simple product list and product details webpages.",
+  "main": "./server/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YoussefMo7amed/producto.git"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "mongoDB",
+    "MVC"
+  ],
+  "author": "Youssef Mohamed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YoussefMo7amed/producto/issues"
+  },
+  "homepage": "https://github.com/YoussefMo7amed/producto#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3"
+  }
+}
