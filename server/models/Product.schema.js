@@ -26,7 +26,7 @@ const productSchema = new mongoose.Schema({
             message: "Invalid URL format",
         },
     },
-    category: {
+    categoryId: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "Category",
     },
