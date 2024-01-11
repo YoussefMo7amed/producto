@@ -7,6 +7,11 @@ const ROUTER_NAME = "products";
 
 router.get(`/${ROUTER_NAME}`, productsController.getAllProducts);
 router.get(`/${ROUTER_NAME}/:id`, productsController.getProductById);
+// Updated route for filtering by category
+router.get(
+    `/${ROUTER_NAME}/category/:category`,
+    productsController.getProductsByCategory
+);
 
 router.post(`/${ROUTER_NAME}`, productsController.createProduct);
 

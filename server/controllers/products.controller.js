@@ -1,13 +1,67 @@
 const Product = require("../models/Product.model");
 
+function handleSort({ sort }) {
+    // TODO - Handle by Date (when adding it into database)
+    const allowedSortValues = [
+        "price:asc",
+        "price:desc",
+        "name:asc",
+        "name:desc",
+    ];
+    if (allowedSortValues.includes(sort)) {
+        const [key, order] = sort.split(":");
+        const sortObject = {};
+        sortObject[key] = order === "asc" ? 1 : -1;
+        return sortObject;
+    } else if (
+        allowedSortValues.some((value) => sort.includes(value.split(":")[0]))
+    ) {
+        const sortObject = {};
+        sortObject[sort] = 1;
+        return sortObject;
+    } else {
+        return null;
+    }
+}
+
+function handleFilter({ query }) {
+    const categoryId = query.categoryId;
+    const minPrice = parseInt(query.minPrice);
+    const maxPrice = parseInt(query.maxPrice);
+    const filterQuery = {};
+
+    if (categoryId) {
+        filterQuery.categoryId = categoryId;
+    }
+
+    if (minPrice || maxPrice) {
+        filterQuery.price = {};
+        if (minPrice) {
+            filterQuery.price.$gte = minPrice;
+        }
+        if (maxPrice) {
+            filterQuery.price.$lte = maxPrice;
+        }
+    }
+
+    return filterQuery;
+}
+
 // GET METHODS
 exports.getAllProducts = async (req, res) => {
+    let query = handleFilter(req);
+    const sort = handleSort(req.query);
+
     try {
-        const products = await Product.find();
+        let products;
+        if (sort) {
+            products = await Product.find(query).sort(sort);
+        } else {
+            products = await Product.find(query);
+        }
         res.json(products);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -26,6 +80,19 @@ exports.getProductById = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+exports.getProductsByCategory = async (req, res) => {
+    const categoryId = req.params.categoryId;
+
+    try {
+        const products = await Product.find()
+            .where("categoryId")
+            .equals(categoryId);
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
 
@@ -94,16 +161,3 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
-
-/*
-
-TODO:
-    Things need to be handled
-    - Filter by category
-    - Filter by price
-        - minimum
-        - maximum
-    - Sorting by
-        - Price
-        - Name
-*/
