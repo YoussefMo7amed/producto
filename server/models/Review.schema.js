@@ -30,14 +30,6 @@ const reviewSchema = mongoose.Schema({
     },
     attachments: {
         type: [mongoose.SchemaTypes.String],
-        validate: {
-            validator: (values) => {
-                // will use middleware lib later
-                const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
-                return values.every((value) => urlRegex.test(value));
-            },
-            message: "Invalid URL format",
-        },
         default: [],
     },
 });

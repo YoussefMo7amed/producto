@@ -51,29 +51,27 @@ exports.getReviewsByProductId = async (req, res) => {
 
 // POST METHODS
 
-// TODO
-// Adding a middleware to handle video uploading
 exports.createReview = async (req, res) => {
-    let productId = req.params.productId;
-    if (!productId) productId = req.body.productId;
-
-    if (!productId)
-        return res.status(400).json({ message: "You should Enter ProductId" });
-
-    const { reviewerName, reviewerEmail, attachments, content } = req.body;
     try {
+        const { reviewerName, reviewerEmail, content, productId } = req.body;
+
+        const attachments = req.files.map((file) => file.path);
+
         const newReview = new Review({
             reviewerName,
             reviewerEmail,
-            attachments,
-            productId,
             content,
+            productId,
+            attachments,
         });
+
         const savedReview = await newReview.save();
+
         res.status(201).json(savedReview);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({
+            message: "You should upload a video less than or equal 60 seconds",
+        });
     }
 };
 

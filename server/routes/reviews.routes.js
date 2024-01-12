@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const reviewsController = require("../controllers/reviews.controller");
+const {
+    upload,
+    checkVideoDurationBeforeUpload,
+} = require("../middleware/multerMiddleware");
 
 // Define routes
 const ROUTER_NAME = "reviews";
@@ -12,8 +16,13 @@ router.get(
     reviewsController.getReviewsByProductId
 );
 
-router.post(`/${ROUTER_NAME}/:productId`, reviewsController.createReview);
-router.post(`/${ROUTER_NAME}/`, reviewsController.createReview);
+router.post(
+    `/${ROUTER_NAME}/:productId`,
+    upload,
+    reviewsController.createReview
+);
+
+router.post(`/${ROUTER_NAME}/`, upload, reviewsController.createReview);
 
 router.put(`/${ROUTER_NAME}/:id`, reviewsController.updateReview);
 
