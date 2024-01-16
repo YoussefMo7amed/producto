@@ -19,7 +19,6 @@ const productSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: (value) => {
-                // will use middleware lib later
                 const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
                 return urlRegex.test(value);
             },

@@ -32,6 +32,10 @@ const reviewSchema = mongoose.Schema({
         type: [mongoose.SchemaTypes.String],
         default: [],
     },
+    createdAt: {
+        type: mongoose.SchemaTypes.Date,
+        default: Date.now,
+    },
 });
 
 module.exports = reviewSchema;
