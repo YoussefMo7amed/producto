@@ -10,8 +10,6 @@ import { ProductProvider } from "./Contexts/ProductContext";
 import { CategoryProductsProvider } from "./Contexts/CategoryProductsContext";
 
 function App() {
-    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
-    console.log(apiBaseUrl);
     return (
         <CategoryProvider>
             <Router>
