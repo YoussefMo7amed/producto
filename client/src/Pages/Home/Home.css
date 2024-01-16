@@ -1,0 +1,22 @@
+/* Home.css */
+
+/* Center the carousel indicators */
+#imageSlider .carousel-indicators {
+    justify-content: center;
+}
+
+/* Add responsive padding to the carousel controls */
+#imageSlider .carousel-control-prev,
+#imageSlider .carousel-control-next {
+    padding: 10px;
+}
+
+/* Add responsive margin to the carousel items */
+#imageSlider .carousel-inner {
+    margin-top: 20px;
+}
+
+/* Adjust image max-height for responsiveness */
+#imageSlider img {
+    max-height: 400px; /* Adjust the value based on your design */
+}
