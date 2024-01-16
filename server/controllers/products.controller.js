@@ -1,6 +1,8 @@
+const mongoose = require("mongoose");
 const Product = require("../models/Product.model");
 
 function handleSort({ sort }) {
+    if (!sort) return null;
     // TODO - Handle by Date (when adding it into database)
     const allowedSortValues = [
         "price:asc",
@@ -30,7 +32,7 @@ function handleFilter({ query }) {
     const maxPrice = parseInt(query.maxPrice);
     const filterQuery = {};
 
-    if (categoryId) {
+    if (categoryId &&  categoryId!= 'undefined') {
         filterQuery.categoryId = categoryId;
     }
 
@@ -69,19 +71,48 @@ exports.getProductById = async (req, res) => {
     const productId = req.params.id;
 
     try {
-        // Fetch a specific product by ID from the database
-        const product = await Product.findById(productId);
+        const product = await Product.aggregate([
+            {
+                $match:{ _id: new mongoose.Types.ObjectId(productId) }
+            },
+            {
+                $lookup: {
+                    from: "categories", 
+                    localField: "categoryId",
+                    foreignField: "_id",
+                    as: "category"
+                }
+            },
+            {
+                $unwind: "$category"
+            },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    description: 1,
+                    price: 1,
+                    imgURL: 1,
+                    categoryId: "$category._id",
+                    categoryName: "$category.name",
+                    createdAt: 1
+                }
+            }
+        ]);
 
-        if (!product) {
+        if (product.length === 0) {
             return res.status(404).json({ message: "Product not found" });
         }
 
-        res.json(product);
+        res.json(product[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+
+
 
 exports.getProductsByCategory = async (req, res) => {
     const categoryId = req.params.categoryId;
@@ -89,7 +120,7 @@ exports.getProductsByCategory = async (req, res) => {
     try {
         const products = await Product.find()
             .where("categoryId")
-            .equals(categoryId);
+            .equals(new mongoose.Types.ObjectId(categoryId));
         res.json(products);
     } catch (error) {
         res.status(500).json({ error: error.message });
