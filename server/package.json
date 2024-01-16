@@ -2,10 +2,10 @@
   "name": "producto",
   "version": "1.0.0",
   "description": "Simple product list and product details webpages.",
-  "main": "./server/app.js",
+  "main": "./app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/app.js"
+    "start": "nodemon ./app.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,8 @@
     "express": "^4.18.2",
     "fluent-ffmpeg": "^2.1.2",
     "mongoose": "^8.0.3",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "nodemon": "^3.0.3"
   },
   "devDependencies": {
     "dotenv": "^16.3.1"
