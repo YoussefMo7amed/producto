@@ -3,20 +3,16 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
 
 // Configuration variables
 const DB_URI = process.env.DB_URI;
 const DB_OPTIONS = JSON.parse(process.env.DB_OPTIONS);
 const PORT = process.env.PORT;
-const Host = process.env.HOST;
-const serverHost = `${Host}:${PORT}`;
 
-// Read allowed origins from the JSON file
-const allowedOriginsPath = path.join(__dirname, "allowed-origins.json");
-const allowedOrigins = JSON.parse(fs.readFileSync(allowedOriginsPath, "utf8"));
-allowedOrigins.push(serverHost);
+// Read allowed origins from the .env file
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",")
+    : [];
 
 const corsOptions = {
     origin: (origin, callback) => {
