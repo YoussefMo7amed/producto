@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 import { BannerModule } from "../../Components/Components";
 import { CategoryProductsProvider } from "../../Contexts/CategoryProductsContext";
+import { Link } from "react-router-dom";
 
 const Home = ({ categories }) => {
     const ImagesPath = "/Assets/Images/";
@@ -88,15 +89,15 @@ const Home = ({ categories }) => {
                 </CategoryProductsProvider>
             </div>
             <button type="button" class="btn btn-outline-secondary">
-                <a
-                    href="/products"
+                <Link
+                    to="/products"
                     style={{
                         textDecoration: "none",
                         color: "inherit",
                     }}
                 >
                     See All Products
-                </a>
+                </Link>
             </button>
         </div>
     );

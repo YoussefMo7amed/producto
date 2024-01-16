@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 const ProductCard = ({ _id, name, description, imgURL, price, createdAt }) => {
     return (
-        <a
-            href={`/product/${_id}`}
+        <Link
+            to={`/product/${_id}`}
             style={{ textDecoration: "none", color: "inherit" }}
         >
             <div className="card mb-3 hover" style={{ maxWidth: "18rem" }}>
@@ -27,7 +29,7 @@ const ProductCard = ({ _id, name, description, imgURL, price, createdAt }) => {
                     </div>
                 )}
             </div>
-        </a>
+        </Link>
     );
 };
 
