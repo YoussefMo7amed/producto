@@ -22,13 +22,42 @@ exports.getCategoryById = async (req, res) => {
     const categoryId = req.params.id;
 
     try {
-        const category = await Category.findById(categoryId);
+        const categoryWithoutProducts = await Category.findById(categoryId);
 
-        if (!category) {
+        if (!categoryWithoutProducts) {
             return res.status(404).json({ message: "Category not found" });
         }
 
-        res.json(category);
+        if (categoryWithoutProducts.productIds.length > 0) {
+            const categoryWithProducts = await Category.aggregate([
+                {
+                    $match: { _id: new mongoose.Types.ObjectId(categoryId) },
+                },
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: "productIds",
+                        foreignField: "_id",
+                        as: "products",
+                    },
+                },
+                {
+                    $unwind: "$products",
+                },
+                {
+                    $group: {
+                        _id: "$_id",
+                        name: { $first: "$name" },
+                        description: { $first: "$description" },
+                        products: { $push: "$products" },
+                    },
+                },
+            ]);
+
+            return res.json(categoryWithProducts[0]);
+        }
+
+        res.json(categoryWithoutProducts);
     } catch (error) {
         console.error(error);
 
