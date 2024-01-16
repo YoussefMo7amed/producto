@@ -17,7 +17,6 @@ const serverHost = `${Host}:${PORT}`;
 const allowedOriginsPath = path.join(__dirname, "allowed-origins.json");
 const allowedOrigins = JSON.parse(fs.readFileSync(allowedOriginsPath, "utf8"));
 allowedOrigins.push(serverHost);
-console.log(allowedOrigins);
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -50,8 +49,11 @@ const categoriesRoutes = require("./routes/categories.routes");
 const productsRoutes = require("./routes/products.routes");
 const reviewsRoutes = require("./routes/reviews.routes");
 
+// Import My Middlewares
+const cacheMiddleware = require("./middleware/cacheMiddleware");
+
 // Use routes with consistent API versioning
-app.use(`/api/${CURRENT_API_VERSION}/`, categoriesRoutes);
+app.use(`/api/${CURRENT_API_VERSION}/`, cacheMiddleware, categoriesRoutes);
 app.use(`/api/${CURRENT_API_VERSION}/`, productsRoutes);
 app.use(`/api/${CURRENT_API_VERSION}/`, reviewsRoutes);
 
