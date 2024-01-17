@@ -16,29 +16,10 @@ function sanitizeFileName(fileName) {
     return sanitizedFileName;
 }
 
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        const productId = req.params.productId;
-        const uploadPath = `./server/uploads/${productId}/`;
-
-        if (!fs.existsSync(uploadPath)) {
-            fs.mkdirSync(uploadPath, { recursive: true });
-        }
-
-        callback(null, uploadPath);
-    },
-    filename: (req, file, callback) => {
-        callback(
-            null,
-            sanitizeFileName(new Date().toISOString() + " " + file.originalname)
-        );
-    },
-});
-
 fileSize = 1024 * 1024 * 5; // 5MB
 
 const upload = multer({
-    storage: storage,
+    storage: multer.memoryStorage(),
     limits: { fileSize },
     fileFilter: fileFilter,
 }).array("attachments", 5);
