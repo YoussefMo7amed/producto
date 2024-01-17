@@ -5,6 +5,7 @@ const {
     upload,
     checkVideoDurationBeforeUpload,
 } = require("../middleware/multerMiddleware");
+const { firebaseMiddleware } = require("../middleware/firebaseMiddleware");
 
 // Define routes
 const ROUTER_NAME = "reviews";
@@ -19,10 +20,16 @@ router.get(
 router.post(
     `/${ROUTER_NAME}/:productId`,
     upload,
+    firebaseMiddleware,
     reviewsController.createReview
 );
 
-router.post(`/${ROUTER_NAME}/`, upload, reviewsController.createReview);
+router.post(
+    `/${ROUTER_NAME}/`,
+    upload,
+    firebaseMiddleware,
+    reviewsController.createReview
+);
 
 router.put(`/${ROUTER_NAME}/:id`, reviewsController.updateReview);
 

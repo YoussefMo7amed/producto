@@ -53,9 +53,8 @@ exports.getReviewsByProductId = async (req, res) => {
 
 exports.createReview = async (req, res) => {
     try {
-        const { reviewerName, reviewerEmail, content, productId } = req.body;
-
-        const attachments = req.files.map((file) => file.path);
+        const { reviewerName, reviewerEmail, content, productId, attachments } =
+            req.body;
 
         const newReview = new Review({
             reviewerName,

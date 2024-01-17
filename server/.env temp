@@ -4,3 +4,14 @@ HOST=
 PORT=
 OTHER_DB_URI=mongodb://localhost:27017
 ALLOWED_ORIGINS=<http://localhost:3001,3.75.158.163,3.125.183.140,35.157.117.28,https://www.juhayna.com,http://www.juhayna.com,https://www.domty.org,http://www.domty.org,https://edita.com.eg,http://edita.com.eg,https://egyptfoodsgroup.com,http://egyptfoodsgroup.com,https://www.misrcafe.com.eg,http://www.misrcafe.com.eg,https://static.wixstatic.com/media,http://static.wixstatic.com/media>
+
+FIREBASE_STUFF = "------------------"
+
+apiKey=
+authDomian=
+projectId=
+storageBucket=
+messagingSenderId=
+appId=
+FIREBASE_USER=
+FIREBASE_AUTH=
