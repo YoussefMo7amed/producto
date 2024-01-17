@@ -32,11 +32,7 @@ const OldReviews = ({ productId }) => {
                                         (attachment, index) => (
                                             <li key={index}>
                                                 <Link
-                                                    to={
-                                                        API_BASE_URL +
-                                                        "/" +
-                                                        attachment
-                                                    }
+                                                    to={attachment}
                                                     target="_blank"
                                                 >
                                                     Video Review {index + 1}
