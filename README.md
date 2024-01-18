@@ -1,4 +1,3 @@
-
 # Producto
 
 <img src="Logo.svg" alt="Logo" width="100">
