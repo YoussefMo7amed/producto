@@ -8,7 +8,7 @@ const ReviewForm = ({ productId }) => {
     const [email, setEmail] = useState("");
     const [review, setReview] = useState("");
     const [video, setVideo] = useState([]);
-    const [isSubmitted, setIsSubmitted] = useState(false); // New state variable
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,14 +21,19 @@ const ReviewForm = ({ productId }) => {
             productId,
         };
 
-        // Assuming handleReviewSubmit returns a promise
-        await handleReviewSubmit(newReviewData);
+        setIsLoading(true);
 
-        setName("");
-        setEmail("");
-        setReview("");
-        setVideo([]);
-        setIsSubmitted(true); // Set the submission status to true after successful submission
+        try {
+            await handleReviewSubmit(newReviewData);
+            setName("");
+            setEmail("");
+            setReview("");
+            setVideo([]);
+        } catch (error) {
+            console.error("Error submitting review:", error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -106,14 +111,13 @@ const ReviewForm = ({ productId }) => {
                 </div>
             </div>
 
-            <button type="submit" className="btn btn-primary">
-                Submit Review
+            <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={isLoading}
+            >
+                {isLoading ? "Submitting..." : "Submit Review"}
             </button>
-            {isSubmitted && (
-                <div className="alert alert-success mt-3" role="alert">
-                    Review submitted successfully!
-                </div>
-            )}
         </form>
     );
 };
